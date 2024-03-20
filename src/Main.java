@@ -1,47 +1,56 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Создаем список исходных продуктов
-        List<Product> products1 = new ArrayList<>();
         List<Product> products = new ArrayList<>();
-        products1.add(new Product(10, "coffe"));
-        products1.add(new Product(15, "tea"));
-        products1.add(new Product(20, "ice cream"));
+        Scanner scanner = new Scanner(System.in);
         products.add(new Beverage(15,"aqua",1.5));
         products.add(new Beverage(10,"aqua",1.0));
-        // Инициализируем торговый автомат
-        String name = products1.toString();
-        System.out.println(name);
-        BeverageVendingMachine vendingMachine = new BeverageVendingMachine();
-        vendingMachine.initProducts(products);
-        VendingMachine1 vendMach = new VendingMachine1();
-        vendMach.initProducts(products1);
+        products.add(new hotDrink(11,"tea",0.5,10));
+        products.add(new hotDrink(11,"coffee",0.25,10));
+        System.out.println("Menu:");
+        System.out.println("aqua:"+" 1.5"+","+"1.0");
+        System.out.println("tea"+" 0.5");
+        System.out.println("coffe"+" 0.25");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("Что вы хотите: ");
+        String prod = scanner.nextLine();
+        BeverageVendingMachine beverageMachine = new BeverageVendingMachine();
+        VendingMachine1 productMachine = new VendingMachine1();
+        hotDrinkVendingMachine hotDrinkMachine = new hotDrinkVendingMachine();
 
-        // Получаем продукты из торгового автомата по названию
-        Product product = vendMach.getProduct("coffe");
+        beverageMachine.initProducts(products);
+        productMachine.initProducts(products);
+        hotDrinkMachine.initProducts(products);
 
-
+        Product product = productMachine.getProduct(prod);
         if (product != null) {
-            System.out.println("The product was found: " + product.getProduct() + ", price: " + product.getPrice());
+            System.out.println("Product found: " + product.getProduct() + ", price: " + product.getPrice());
         } else {
-            System.out.println("The product was not found");
-        }
-        Beverage prod  = vendingMachine.getProduct("aqua",1.0);
-
-        if (prod != null) {
-            System.out.println("The product was found: " + prod.getProduct() + ", price: " + prod.getPrice()+", valume: "+prod.getValume());
-        } else {
-            System.out.println("The product was not found");
+            System.out.println("Product not found");
         }
 
+        Beverage beverage = beverageMachine.getProduct("aqua", 1.0);
+        if (beverage != null) {
+            System.out.println("Product found: " + beverage.getProduct() + ", price: " + beverage.getPrice() + ", volume: " + beverage.getValume());
+        } else {
+            System.out.println("Product not found");
+        }
+
+        hotDrink hotDrink = hotDrinkMachine.getProduct("tea", 0.5, 10);
+        if (hotDrink != null) {
+            System.out.println("Product found: " + hotDrink.getProduct() + ", price: " + hotDrink.getPrice() + ", volume: " + hotDrink.getValume() + ", temperature: " + hotDrink.temperature);
+        } else {
+            System.out.println("Product not found");
+        }
     }
 }
 
 class Product {
-    private int price;
-    private String product;
+    protected int price;
+    protected String product;
 
     public int getPrice() {
         return price;
@@ -89,12 +98,15 @@ class Beverage extends Product {
         super(price, product);
         this.valume =valume;
     }
-}
-class IceCream extends Product {
-    public IceCream(int price, String product) {
-        super(price, product);
+    @Override
+    public String toString() {
+        return "Beverage{" +
+                "price=" + price +
+                ", product='" + product + '\'' +
+                "valume"+valume+"}  ";
     }
 }
+
 interface VendingMachine {
     void initProducts(List<Product> productList);
     Product getProduct(String name);
@@ -117,12 +129,6 @@ class VendingMachine1 implements VendingMachine {
         }
         return null;
     }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("VendingMachine1{products=").append(productList).append('}');
-        return sb.toString();
-    }
 }
 class BeverageVendingMachine extends VendingMachine1 implements VendingMachine {
     private List<Product> productList;
@@ -143,4 +149,40 @@ class BeverageVendingMachine extends VendingMachine1 implements VendingMachine {
         return null;
     }
 }
+//Домашняя задания
+/*
+ * @param temperature - Температура напитки
+ */
+class hotDrink extends Beverage {
+    protected double temperature;
 
+    public hotDrink(int price, String product, double valume,double temperature){
+        super(price,product,valume);
+        this.temperature=temperature;
+    }
+    @Override
+    public String toString() {
+        return "Hot Drink {" +
+                "price=" + price +
+                ", product='" + product +
+                " valume= "+getValume()+" temperature= "+temperature;
+    }
+}
+class hotDrinkVendingMachine extends VendingMachine1 implements VendingMachine{
+    private List<Product> productList;
+    @Override
+    public void initProducts(List<Product> productList) {
+        this.productList = productList;
+    }
+    public hotDrink getProduct(String name, double volume, double temperature) {
+        if (productList != null) {
+            for (Product product : productList) {
+                if (product.getProduct().equalsIgnoreCase(name) && product instanceof hotDrink && ((hotDrink) product).getValume() == volume && ((hotDrink) product).temperature == temperature) {
+                    return (hotDrink) product;
+                }
+            }
+        }
+        return null;
+    }
+
+}

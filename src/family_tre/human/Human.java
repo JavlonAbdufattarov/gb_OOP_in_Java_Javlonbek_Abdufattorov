@@ -1,4 +1,4 @@
-package family_tre;
+package family_tre.human;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ public class Human  implements Serializable {
        private String name;
        private  LocalDate birthday;
        private LocalDate deathDate;
-       private  Gender gender;
+       private Gender gender;
        private  List<Human> child;
        private Human father;
        private Human mother;

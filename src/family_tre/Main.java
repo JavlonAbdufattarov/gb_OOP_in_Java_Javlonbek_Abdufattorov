@@ -1,13 +1,18 @@
 package family_tre;
+import family_tre.Write.FileHendler;
+import family_tre.family.FamilyTree;
+import family_tre.human.Gender;
+import family_tre.human.Human;
+
 import java.io.*;
 import java.time.LocalDate;
-
+import java.util.List;
 public class Main {
 
     
     public static void main(String[] args) {
         FamilyTree tree = new FamilyTree();
-        Human Gayrat = new Human("Gayrat",Gender.Male,LocalDate.of(1976,5,6)    );
+        Human Gayrat = new Human("Gayrat", Gender.Male,LocalDate.of(1976,5,6)    );
         Human Gavhar = new Human("Gavhar",Gender.Female,LocalDate.of(1981,2,27));
         tree.addt(Gayrat);
         tree.addt(Gavhar);
@@ -21,7 +26,11 @@ public class Main {
         tree.addt(grandMother);
         System.out.println(tree.toString());
         FileHendler fileHandler = new FileHendler();
-
+        System.out.println("\nSorted by Birthday:");
+        List<Human> sortedByBirthday = tree.sortByBirthday();
+        for (Human human : sortedByBirthday) {
+            System.out.println(human.getName() + " - " + human.getBirthday());
+        }
         try {
             // Запись объекта FamilyTree в файл
             fileHandler.writeToFile(tree, "family_tree.ser");

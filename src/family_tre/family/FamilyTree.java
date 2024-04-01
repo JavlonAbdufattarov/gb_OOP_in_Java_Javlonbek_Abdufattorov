@@ -1,10 +1,13 @@
-package family_tre;
+package family_tre.family;
+import family_tre.human.Human;
+
 import java.io.Serializable;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-
-public class FamilyTree implements Serializable {
+import java.util.Iterator;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+public class FamilyTree implements Serializable,Iterable<Human> {
     long count;
     private List<Human> humanList;
     public FamilyTree(){
@@ -103,4 +106,20 @@ public class FamilyTree implements Serializable {
             }
             return sb.toString();
         }
+    @Override
+    public Iterator<Human> iterator() {
+        return humanList.iterator();
+    }
+    public List<Human> sortByName() {
+        return humanList.stream()
+                .sorted(Comparator.comparing(Human::getName))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Human> sortByBirthday() {
+        return humanList.stream()
+                .sorted(Comparator.comparing(Human::getBirthday))
+                .collect(Collectors.toList());
+    }
 }

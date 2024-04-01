@@ -1,6 +1,8 @@
-package family_tre;
+package family_tre.Write;
+import family_tre.family.FamilyTree;
+
 import java.io.*;
-public class FileHendler implements FileIO<FamilyTree>{
+public class FileHendler implements FileIO<FamilyTree> {
     @Override
     public void writeToFile(FamilyTree object, String filename) throws IOException {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename))) {

@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Comparator;
 import java.util.stream.Collectors;
-public class FamilyTree implements Serializable,Iterable<Human> {
+public class FamilyTree<E extends TreeNode<E>> implements Serializable,Iterable<E> {
     long count;
-    private List<Human> humanList;
+    private List<E> humanList;
     public FamilyTree(){
         this(new ArrayList<>());
     }
 
-    public FamilyTree(List<Human> humanList){
+    public FamilyTree(List<E> humanList){
         this.humanList = humanList;
     }
-    public boolean addt(Human human){
+    public boolean addt(E human){
         if(human == null){
             return false;
         }
@@ -30,24 +30,24 @@ public class FamilyTree implements Serializable,Iterable<Human> {
         }
         return false;
     }
-    private void addToParents(Human human){
-        for(Human parent:human.getParents()){
+    private void addToParents(E human){
+        for(E parent:human.getParents()){
             parent.addChild(human);
         }
     }
-    private void addToChild(Human human){
-        for(Human child:human.getChild()){
+    private void addToChild(E human){
+        for(E child:human.getChild()){
             child.addParent(human);
         }
     }
-    public List<Human> getSibling(int id){
-        Human human = getById(id);
+    public List<E> getSibling(int id){
+        E human = getById(id);
         if(human == null){
             return null;
         }
-        List<Human> ListS = new ArrayList<>();
-        for(Human parent:human.getParents()){
-            for(Human child: parent.getChild()){
+        List<E> ListS = new ArrayList<>();
+        for(E parent:human.getParents()){
+            for(E child: parent.getChild()){
                 if(!child.equals(human)){
                     ListS.add(child);
                 }
@@ -55,9 +55,9 @@ public class FamilyTree implements Serializable,Iterable<Human> {
         }
     return ListS;
     }
-    public List<Human> getByName(String name){
-        List<Human> res = new ArrayList<>();
-        for (Human human : humanList){
+    public List<E> getByName(String name){
+        List<E> res = new ArrayList<>();
+        for (E human : humanList){
             if(human.getName().equals(name)){
                 res.add(human);
             }
@@ -66,13 +66,13 @@ public class FamilyTree implements Serializable,Iterable<Human> {
     }
     public boolean setWidding(long id1,long id2){
         if(checkId(id1)&&checkId(id2)){
-            Human human1 = getById(id1);
-            Human human2 = getById(id2);
+            E human1 = getById(id1);
+            E human2 = getById(id2);
             return setWidding(human1,human2);
         }
         return false;
     }
-    public boolean setWidding(Human human1,Human human2){
+    public boolean setWidding(E human1,E human2){
         if(human1.getSpuose()==null && human2.getSpuose()==null ){
             human1.setSpuose(human2);
             human2.setSpuose(human1);
@@ -83,8 +83,8 @@ public class FamilyTree implements Serializable,Iterable<Human> {
     private boolean checkId(long Id){
         return Id <count&& Id>=0;
     }
-    public Human getById(long id){
-        for(Human human: humanList){
+    public E getById(long id){
+        for(E human: humanList){
             if(human.getId()==id){
                 return human;
             }
@@ -100,26 +100,26 @@ public class FamilyTree implements Serializable,Iterable<Human> {
             sb.append("in tree ");
             sb.append(humanList.size());
             sb.append(" object: \n");
-            for (Human human: humanList){
+            for (E human: humanList){
                 sb.append(human);
                 sb.append("\n");
             }
             return sb.toString();
         }
     @Override
-    public Iterator<Human> iterator() {
+    public Iterator<E> iterator() {
         return humanList.iterator();
     }
-    public List<Human> sortByName() {
+    public List<E> sortByName() {
         return humanList.stream()
-                .sorted(Comparator.comparing(Human::getName))
+                .sorted(Comparator.comparing(E::getName))
                 .collect(Collectors.toList());
     }
 
 
-    public List<Human> sortByBirthday() {
+    public List<E> sortByBirthday() {
         return humanList.stream()
-                .sorted(Comparator.comparing(Human::getBirthday))
+                .sorted(Comparator.comparing(E::getBirthday))
                 .collect(Collectors.toList());
     }
 }

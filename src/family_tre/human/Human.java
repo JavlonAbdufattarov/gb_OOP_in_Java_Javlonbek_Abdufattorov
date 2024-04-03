@@ -1,12 +1,14 @@
 package family_tre.human;
 
+import family_tre.family.TreeNode;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Human  implements Serializable {
+public class Human  implements Serializable,TreeNode<Human> {
        private long id;
        private Human spuose;
        private String name;

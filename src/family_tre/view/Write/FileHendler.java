@@ -1,5 +1,5 @@
-package family_tre.Write;
-import family_tre.family.FamilyTree;
+package family_tre.view.Write;
+import family_tre.Model.FamilyTree;
 
 import java.io.*;
 public class FileHendler implements FileIO<FamilyTree> {

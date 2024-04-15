@@ -1,4 +1,4 @@
-package family_tre.Write;
+package family_tre.view.Write;
 import java.io.IOException;
 public interface FileIO<T> {
 

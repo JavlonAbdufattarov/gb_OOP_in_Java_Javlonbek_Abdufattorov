@@ -1,6 +1,6 @@
-package family_tre.human;
+package family_tre.Model.human;
 
-import family_tre.family.TreeNode;
+import family_tre.Model.TreeNode;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -97,7 +97,7 @@ public class Human  implements Serializable,TreeNode<Human> {
            return false;
         }
         public boolean addParent(Human parent){
-           if(parent.getGender().equals(Gender.Male)){
+           if(parent.getGender().equals(Gender.MALE)){
             setFather(parent);
            }
            else{

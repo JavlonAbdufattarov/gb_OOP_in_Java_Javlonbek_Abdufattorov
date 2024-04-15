@@ -1,5 +1,4 @@
-package family_tre.family;
-import family_tre.human.Human;
+package family_tre.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -116,6 +115,9 @@ public class FamilyTree<E extends TreeNode<E>> implements Serializable,Iterable<
                 .collect(Collectors.toList());
     }
 
+    public List<E> getMembers() {
+        return new ArrayList<>(humanList);
+    }
 
     public List<E> sortByBirthday() {
         return humanList.stream()

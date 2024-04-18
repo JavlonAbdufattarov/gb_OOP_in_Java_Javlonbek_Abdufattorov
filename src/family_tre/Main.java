@@ -4,8 +4,8 @@ import family_tre.Model.FamilyTree;
 import family_tre.view.ConsoleFamilyTreeView.*;
 
 public class Main {
-
-
+    //Вроде на все принципы SOLID отвечает у меня нет идей чтоб изменить свой код если есть не достатки можете подскозать
+    //и как я могу их исправить
     public static void main(String[] args) {
         FamilyTree model = new FamilyTree();
         ConsoleFamilyTreeView view = new ConsoleFamilyTreeView();
